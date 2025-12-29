@@ -95,7 +95,7 @@ def load_dataset_from_folder(folder="data"):
 st.title("🚗 Indonesia Retail Car Sales (2020–2022)")
 
 st.markdown("""
-### Tujuan Dashboard
+### 🎯 Tujuan Dashboard
 
 Dashboard ini membantu **analis pasar** dan **pengambil keputusan** untuk:
 - Melihat total ukuran pasar dan pertumbuhan penjualan mobil ritel per tahun.
@@ -327,7 +327,7 @@ st.divider()
 
 # Highlights
 
-st.subheader("Highlights")
+st.subheader("🔎 Highlights")
 
 h1, h2, h3 = st.columns(3)
 
@@ -365,7 +365,7 @@ st.caption(
 
 # Tabs / Charts
 
-tab1, tab2, tab3 = st.tabs(["Overview", "Trends & Change", "Data & Export"])
+tab1, tab2, tab3 = st.tabs(["📊 Overview", "📈 Trends & Change", "🧾 Data & Export"])
 
 #Tab 1 Ranking + Treemap
 with tab1:
@@ -490,7 +490,7 @@ with tab3:
 
     with c1:
         st.download_button(
-            "Download filtered data (CSV)",
+            "⬇️ Download filtered data (CSV)",
             df_f.to_csv(index=False).encode("utf-8"),
             file_name="filtered_car_retail_sales_id.csv",
             mime="text/csv"
@@ -500,7 +500,11 @@ with tab3:
         st.markdown("### Export static HTML")
     
 
-        hm_mode = "Normalized per Brand"
+        hm_mode = st.selectbox(
+            "Heatmap mode (untuk HTML)",
+            ["Log scale (lebih kontras)", "Normalized per brand (lihat pola naik/turun)"],
+            index=0
+        )
 
         try:
             if metric in ["YoY Growth (%)", "YoY Change (Units)"] and 'yoy_year' in locals():
@@ -654,6 +658,13 @@ with tab3:
             </body>
             </html>
             """
+
+            st.download_button(
+                "⬇️ Download dashboard.html (improved)",
+                html_doc.encode("utf-8"),
+                file_name="dashboard.html",
+                mime="text/html"
+            )
 
         except Exception as e:
             st.error(f"Gagal export HTML: {e}")
