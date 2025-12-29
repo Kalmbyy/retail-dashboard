@@ -92,10 +92,10 @@ def load_dataset_from_folder(folder="data"):
 
 # Load data & intro
 
-st.title("🚗 Indonesia Retail Car Sales (2020–2022)")
+st.title("Indonesia Retail Car Sales (2020–2022)")
 
 st.markdown("""
-### 🎯 Tujuan Dashboard
+### Tujuan Dashboard
 
 Dashboard ini membantu **analis pasar** dan **pengambil keputusan** untuk:
 - Melihat total ukuran pasar dan pertumbuhan penjualan mobil ritel per tahun.
@@ -166,7 +166,7 @@ df_f = df[df["Year"].isin(selected_years)].copy()
 if brand_mode == "Top (per tahun)":
     top_brands = (
         df_f.groupby("Year", group_keys=False)
-            .apply(lambda x: x.nlargest(topn, "Retail"))["Brand"]
+            .apply(lambda x: x.nlargest(topn, "Retail"), include_groups=False)["Brand"]
             .unique()
             .tolist()
     )
@@ -327,7 +327,7 @@ st.divider()
 
 # Highlights
 
-st.subheader("🔎 Highlights")
+st.subheader("Highlights")
 
 h1, h2, h3 = st.columns(3)
 
@@ -499,12 +499,9 @@ with tab3:
     with c2:
         st.markdown("### Export static HTML")
     
-
-        hm_mode = st.selectbox(
-            "Heatmap mode (untuk HTML)",
-            ["Log scale (lebih kontras)", "Normalized per brand (lihat pola naik/turun)"],
-            index=0
-        )
+        st.markdown("**Heatmap mode (untuk HTML)**")
+        st.caption("Normalized per brand (lihat pola naik/turun)")
+        hm_mode = "Normalized per brand (lihat pola naik/turun)"
 
         try:
             if metric in ["YoY Growth (%)", "YoY Change (Units)"] and 'yoy_year' in locals():
@@ -658,13 +655,6 @@ with tab3:
             </body>
             </html>
             """
-
-            st.download_button(
-                "⬇️ Download dashboard.html (improved)",
-                html_doc.encode("utf-8"),
-                file_name="dashboard.html",
-                mime="text/html"
-            )
 
         except Exception as e:
             st.error(f"Gagal export HTML: {e}")
