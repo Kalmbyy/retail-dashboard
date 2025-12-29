@@ -9,7 +9,6 @@ import plotly.io as pio
 
 st.set_page_config(
     page_title="Indonesia Car Retail Sales (2020–2022)",
-    page_icon="🚗",
     layout="wide"
 )
 
